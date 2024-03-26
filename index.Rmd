@@ -1,8 +1,11 @@
 ---
 title: "homepage"
 output: html_document
-date: "2024-03-26"
+#date: "2024-03-26"
+pagetitle: "SarahEF"
 ---
+
+## [Home](https://sarahef13.github.io/) | [Projects](https://sarahef13.github.io/) | [Resume](https://sarahef13.github.io/about-me/resume-2024.pdf)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
