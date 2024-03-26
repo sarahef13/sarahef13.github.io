@@ -8,5 +8,5 @@ pagetitle: "SarahEF"
 ## [Home](https://sarahef13.github.io/) | [Projects](https://sarahef13.github.io/projects/markdown-hints.html) | [Resume](https://sarahef13.github.io/about-me/resume-2024.pdf)
 
 ```{r, echo=FALSE}
-knitr::include_graphics('https://sarahef13.github.io/media/PharmaTech_Logo.png')
+knitr::include_graphics('./media/PharmaTech_Logo.png')
 ```
