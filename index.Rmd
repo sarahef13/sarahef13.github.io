@@ -5,8 +5,8 @@ output: html_document
 pagetitle: "SarahEF"
 ---
 
-## [Home](https://sarahef13.github.io/) | [Projects](https://sarahef13.github.io/projects/) | [Resume](https://sarahef13.github.io/about-me/resume-2024.pdf)
+## [Home](https://sarahef13.github.io/) | [Projects](https://sarahef13.github.io/projects/markdown-hints.html) | [Resume](https://sarahef13.github.io/about-me/resume-2024.pdf)
 
 ```{r, echo=FALSE}
-knitr::include_graphics('https://sarahef13.github.io/media/norm_data_by_adj_devel_percent.pdf')
+knitr::include_graphics('https://sarahef13.github.io/media/PharmaTech_Logo.png')
 ```
