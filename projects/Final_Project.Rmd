@@ -1,6 +1,10 @@
 ---
 title: "Final Project"
-output: html_document
+output: 
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: false
 date: "2024-04-30"
 ---
 
@@ -16,7 +20,7 @@ Please note: this project's data is **NOT** published yet; please don't share th
 This also means that none of the code here will be able to run, as none of the data files are stored online. I pinky promise that the graphs shown below were generated using my code.
 
 
-### Background: Fly Forensics
+### Fly Forensics
 
 Boy howdy, do some flies love to eat meat--especially when their meal is too dead to swat them away. Sometimes, that meat is people!
 
@@ -30,7 +34,7 @@ knitr::include_graphics('../media/blowfly-life-cycle.png')
 About half of an immature fly's life is spent as a **pupa**. Unfortunately for forensic scientists, a newly-shelled pupa looks the same as a nearly-hatching pupa. This leaves a week of uncertainty in the time of death estimate-- far too long to confidently base a court case on. That's where Dr. Hjelmen's & my research comes in!
 
 
-### Background: Previous Research
+### Previous Research
 
 Dr. Hjelmen has already worked with a number of researchers to find genetic markers of age in the blow fly *Cochliomyia macellaria*. They specifically focused on micro-RNAs (**miRs**), as these genetic molecules are present in different amounts at different times of development, yet they're more stable than the more commonly analyzed messenger-RNAs.
 
@@ -45,14 +49,58 @@ My role in Dr. Geoffrey Zahn's class is to generate the simplest yet most accura
 
 ### Step 0: Count Consolidation
 
-The raw data I received consisted of many files of raw miR sequence counts organized by miR name, fly sample, and pupa development time. The names were obtained via BLAST alignment of each read, so many of the same sequences were identified with slightly different name codes--depending on with species the read first aligned with.  
-As such, my first task was to consolidate the miR names, adding together the counts from the same sequences. Because I joined this project before I learned enough R, I wrote the consolidation code in Python. Click [here](https://sarahef13.github.io/fly_miR_analysis_code/count_consolidator.py) to access the .py file!
+The raw data I received consisted of many CSV files of raw miR sequence counts organized by miR name, fly sample, and pupa development time. The names were obtained via BLAST alignment of each read, so many of the same sequences were identified with slightly different name codes--depending on with species the read first aligned with.  
+As such, my first task was to consolidate the miR names, adding together the counts from the same sequences. Because I joined this project before I learned enough R, I wrote the consolidation code in Python. Click [here](https://sarahef13.github.io/fly_miR_analysis_code/count_consolidator.py) to download the .py file!
 
 
 ### Step 1: DESeq
 
+Once the miR counts were collected under the right names, they had to be normalized to account for rtPCR variability. That is to say, we needed the data to be consistently scaled for the numbers to mean anything when compared to one another. Once the data was normalized, we could analyze how the counts changed across pupa development stages. miRs that changed significantly over time may be good markers of age!
 
+To normalize and analyze the counts, I used `library(DESeq2)` and made a function called `DESeeker`. DESeq stands for Differentially Expressed Sequences. This library is specially designed to compare RNA/DNA changes over time based on their log fold changes, and it reports their significance using adjusted p values. As it was my first formal R function, `DESeeker` is lacking the many shortcuts and improvements I've learned during this class.
 
+Each CSV file input to `DESeeker` resulted in:  
+
+* *file_resOrdered.csv*, all DESeq results in order of adjusted p value  
+* *file_sig.csv*, only DESeq results with low adjusted p & high log fold change  
+* *file_normalized.csv*, normalized versions of all counts
+
+Click [here](https://sarahef13.github.io/fly_miR_analysis_code/deseq_seeker.R) to download the full DESeq code file, or click the Show button to see a code preview.
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#rCode1">Show/Hide DESeeker Preview</button>
+<div id="rCode1" class="collapse">
+```{r message=FALSE, class.source='fold-hide'}
+
+DESeeker <- function(csvFile) {
+  
+  # Getting Data From File
+  countData <- read.csv(csvFile, header=T, row.names=1)
+  column_names <- gsub('\\.\\d+$', '', names(countData))
+  
+  # Running DESeq On Data
+  colData <- DataFrame(condition=factor(column_names))
+  dds <- DESeqDataSetFromMatrix(countData, colData, formula(~ condition))
+  dds <- DESeq(dds)
+  
+  res <- results(dds)
+  resOrdered <- res[order(res$padj),]
+  head(resOrdered)
+  sig <- resOrdered[!is.na(resOrdered$padj) & resOrdered$padj<0.10 & abs(resOrdered$log2FoldChange)>=1,]
+  head(sig)
+  selected <- rownames(sig)
+  
+  # Saving Results To CSVs
+  resOrdered_name <- gsub('\\.csv', '_resOrdered.csv', csvFile)
+  write.csv(resOrdered, resOrdered_name)
+  
+  sig_name <- gsub('\\.csv', '_sig.csv', csvFile)
+  write.csv(sig, sig_name)
+  
+  normalized_name<- gsub('\\.csv', '_normalized.csv', csvFile)
+  write.csv(counts(dds,normalized=TRUE), normalized_name)
+}
+```
+</div>
 
 ### Step 2: Upset Plots
 
@@ -63,7 +111,7 @@ As such, my first task was to consolidate the miR names, adding together the cou
 ### Step 4: Random Forests
 
 
-### Step 5: Tukey II, Electric Boogaloo
+### Step 5: Tukey II
 
 
 ### Step 6: Linear Modeling
