@@ -14,18 +14,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Using microRNAs to Predict Forensic Flies' Age
 
-### Preface
+## Preface
 
 Please note: this project's data is **NOT** published yet; please don't share these results outside of our class. I don't want to get turned into fly food.  
 This also means that none of the code here will be able to run, as none of the data files are stored online. I pinky promise that the graphs shown below were generated using my code.
 
 
-### Fly Forensics
+## Fly Forensics
 
 Boy howdy, do some flies love to eat meat--especially when their meal is too dead to swat them away. Sometimes, that meat is people!
 
 Forensic scientists often use blow flies to estimate the time since a cadaver's death. Because blow flies arrive within hours of death, their development is directly linked with the cadaver's. The blow fly life cycle has 4 visually distinct stages: egg, larva (split into 3 instars), pupa, and adult.  
-```{r, echo=FALSE, out.width="110%", out.height="110%"}
+```{r, echo=FALSE, out.width="110%", out.height="110%", fig.align='center'}
 knitr::include_graphics('../media/blowfly-life-cycle.png')
 ```
 
@@ -34,12 +34,12 @@ knitr::include_graphics('../media/blowfly-life-cycle.png')
 About half of an immature fly's life is spent as a **pupa**. Unfortunately for forensic scientists, a newly-shelled pupa looks the same as a nearly-hatching pupa. This leaves a week of uncertainty in the time of death estimate-- far too long to confidently base a court case on. That's where Dr. Hjelmen's & my research comes in!
 
 
-### Previous Research
+## Previous Research
 
 Dr. Hjelmen has already worked with a number of researchers to find genetic markers of age in the blow fly *Cochliomyia macellaria*. They specifically focused on micro-RNAs (**miRs**), as these genetic molecules are present in different amounts at different times of development, yet they're more stable than the more commonly analyzed messenger-RNAs.
 
 Dr. Hjelmen's team validated two significantly differentially expressed (i.e. potentially forensically useful) miRs in *C. macellaria*: bantam and miR-92b.  
-Check out their original publication [here](https://cehjelmen.github.io/assets/publications/insects_2022_miRNA_macellaria.pdf)!
+Check out their original publication [**here**](https://cehjelmen.github.io/assets/publications/insects_2022_miRNA_macellaria.pdf)!
 
 After their publication, they continued to sequence miRs from *C. macellaria* (hereafter called **Cochliomyia**), and they began sequencing miRs from 3 more forensic blow fly species: *Chrysomya rufifacies* (**Chrysomya**), *Lucilia cuprina* (**Lucilia**), and *Blaesoxipha plinthopyga* (**Plinthopyga**).
 
@@ -47,13 +47,13 @@ My role in Dr. Hjelmen's lab is to identify miRs that may be good predictors of 
 My role in Dr. Geoffrey Zahn's class is to generate the simplest yet most accurate age model possible, to demonstrate my understanding of BIOL3100: Data Analytics. Ideally, this model will also lay the groundwork for making future forensic scientists' jobs easier... or at least have less guesswork.
 
 
-### Step 0: Count Consolidation
+## Step 0: Count Consolidation
 
 The raw data I received consisted of many CSV files of raw miR sequence counts organized by miR name, fly sample, and pupa development time. The names were obtained via BLAST alignment of each read, so many of the same sequences were identified with slightly different name codes--depending on with species the read first aligned with.  
-As such, my first task was to consolidate the miR names, adding together the counts from the same sequences. Because I joined this project before I learned enough R, I wrote the consolidation code in Python. Click [here](https://sarahef13.github.io/fly_miR_analysis_code/count_consolidator.py) to download the .py file!
+As such, my first task was to consolidate the miR names, adding together the counts from the same sequences. Because I joined this project before I learned enough R, I wrote the consolidation code in Python. Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/count_consolidator.py) to download the .py file!
 
 
-### Step 1: DESeq
+## Step 1: DESeq
 
 Once the miR counts were collected under the right names, they had to be normalized to account for rtPCR variability. That is to say, we needed the data to be consistently scaled for the numbers to mean anything when compared to one another. Once the data was normalized, we could analyze how the counts changed across pupa development stages. miRs that changed significantly over time may be good markers of age!
 
@@ -65,7 +65,7 @@ Each CSV file input to `DESeeker` resulted in:
 * *file_sig.csv*, only DESeq results with low adjusted p & high log fold change  
 * *file_normalized.csv*, normalized versions of all counts
 
-Click [here](https://sarahef13.github.io/fly_miR_analysis_code/deseq_seeker.R) to download the full DESeq code file, or click the Show button to see a code preview.
+Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/deseq_seeker.R) to download the full DESeq code file, or click the Show button to see a code preview.
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#rCode1">Show/Hide DESeeker Preview</button>
 <div id="rCode1" class="collapse">
@@ -102,11 +102,11 @@ DESeeker <- function(csvFile) {
 ```
 </div>
 
-### Step 2: Upset Plots
+## Step 2: Upset Plots
 
 Once I got the CSV files of significant miRs from `DESeeker`, I used `library(UpSetR)` and `library(tidyverse)` to generate upset plots, which compare the contents of each file. Upset plots are a vastly superior alternative to Venn diagrams when you have more than 2 sets to compare. For this project, I had 4-9 files of miR names to find overlaps between; upset plots were a *must*.
 
-To make the plots, I wrote 3 functions to pull miR names from the CSVs and feed them to `UpSetR::upset()`. Click [here](https://sarahef13.github.io/fly_miR_analysis_code/upset_plot_sigs.R) to download the full upset plot code file, or click the Show button to see a code preview.
+To make the plots, I wrote 3 functions to pull miR names from the CSVs and feed them to `UpSetR::upset()`. Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/upset_plot_sigs.R) to download the full upset plot code file, or click the Show button to see a code preview.
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#rCode2">Show/Hide Upset Plotter Preview</button>
 <div id="rCode2" class="collapse">
@@ -154,13 +154,13 @@ upset(fromList(wt_names_together), nsets=length(wt_names_together))
 </div>
 </br>
 As you can see below, no miR was significantly differentially expressed in all four species, but 4 miRs were in three of the species. Those 4 are **let-7**, **bft**, **miR-100**, and **miR-125**.  **miR-315a** was found in Chrysomya & Cochliomya, which are more related than the other species.
-```{r, echo=FALSE, out.width="60%", out.height="60%"}
+```{r, echo=FALSE, out.width="60%", out.height="60%", fig.align='center'}
 knitr::include_graphics('../media/upset_high_qual_wt.png')
 ```
 
-### Step 3: Tukey Boxplots
+## Step 3: Tukey Boxplots
 
-Once I had some significant cross-species miRs to look into, I had to verify that their counts were differential across pupa stages. I used `library(multcompView)` and `library(ggplot2)` to generate Tukey boxplots for each miR in each species. Click [here](https://sarahef13.github.io/fly_miR_analysis_code/tukey_boxplotter.R) to download the full Tukey plot code file, or click the Show button to see a code preview.
+Once I had some significant cross-species miRs to look into, I had to verify that their counts were differential across pupa stages. I used `library(multcompView)` and `library(ggplot2)` to generate Tukey boxplots for each miR in each species. Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/tukey_boxplotter.R) to download the full Tukey plot code file, or click the Show button to see a code preview.
 
 <button class="btn btn-primary" data-toggle="collapse" data-target="#rCode3">Show/Hide Tukey Plotter Preview</button>
 <div id="rCode3" class="collapse">
@@ -251,7 +251,7 @@ dev.off()
 </div>
 </br>
 Tukey analyses on the data's boxplots added letters to show how distinct each grouping (pupa stage) was from the others. In the example plot below, miR 100 in Chrysomya was able to distinguish between Early (**b**) and Middle (**a**) pupa growth. However, Late growth expression was spread across (indistinguishable from) the Early & Middle values, so it was marked with both stages' letters: **ab**.  
-```{r, echo=FALSE, out.width="80%", out.height="80%"}
+```{r, echo=FALSE, out.width="80%", out.height="80%", fig.align='center'}
 knitr::include_graphics('../media/tukey_chry_mir_100.png')
 ```
 
@@ -272,20 +272,214 @@ Overall, the results for let-7, bft, miR-100, miR-125, & miR-315a across high-qu
 Note: Lucilia was left out of this list because it had no significant miRs that overlapped with the other species.
 
 
-### Step 4: Random Forests
+## Step 4: Random Forests
+
+`DESeeker` was one way of determining which miRs may be good predictors of pupa development, but there are others! Random Forest (**RF**) analysis is a low-level AI approach to predictive modeling. During RF, the computer randomly generates 500 decision trees, then uses those to find the best overall path from miR count to pupa development %. Each tree is made of a series of decision branches; for example, "If miR-100 has >=50 counts, then the pupa is >75% developed. Otherwise, the pupa is <=75% developed."
+
+Because RF is random, no two analyses will return the exact same model. Therefore, I ran RF 100 times on each species' data and compiled a list of each result's top 25 predictive miRs. Although there is a `randomForest` package, I used the newer, faster `library(ranger)` to run the RF, and I used `library(vip)` to extract the top miR names. I made more upset plots to find which top miRs were found in all species' results.
+
+Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/randomforest_modeler.R) to download the full Random Forest code file, or click the Show button to see a code preview.
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#rCode4">Show/Hide RF Modeler Preview</button>
+<div id="rCode4" class="collapse">
+```{r message=FALSE, class.source='fold-hide', eval=FALSE}
+
+get_devel_data <- function() {
+  # This function imports fly development % data and formats it for use with miR count data
+  
+  # This file lists the % development of each fly sample at each pupal stage
+  devel_file <- list.files(pattern = 'sample_percent_development_by_species.csv', recursive = TRUE)
+  devel_data <- read_csv(devel_file)
+  
+  # make the names match the data folders
+  devel_data <- devel_data %>% 
+    clean_names() %>% 
+    rename(Cochliomyia = c_macellaria) %>% 
+    rename(Chrysomya = c_rufifacies) %>% 
+    rename(Lucilia = l_cuprina) %>% 
+    rename(Plinthopyga = b_plinthopyga)
+  
+  # convert chr % values to NAs/decimals, as appropriate
+  devel_data <- devel_data %>% 
+    mutate(across(-stage, ~na_if(., "-"))) %>% 
+    mutate(across(-stage, ~gsub("%", "", .))) %>% 
+    mutate(across(-stage, ~as.numeric(.))) %>% 
+    mutate(across(-stage, ~./100))
+}
+
+
+norm_data_cleaner <- function(){
+  #the full .R file has the rest of the cleaning code
+  
+  # adjust lifetime development % to puparial development %
+  min_devel = min(normdata$development)
+  normdata <- normdata %>% 
+    mutate(adjusted_devel = (development - min_devel)/(1 - min_devel))
+  
+  return(normdata)
+}
+
+
+forest_grower <- function(dataframe, species_name, devel=NULL) {
+  # grows a random forest that models species_name's % development
+  # dataframe must have been through norm_data_cleaner() to work here
+  # devel is optional; if 'adjusted', analysis will use adjusted_devel
+
+  devel_mod <- 
+    dataframe %>% 
+    filter(species == species_name) %>% 
+    select_if(~ !any(is.na(.))) # eliminate columns with NAs
+  
+  # p represents the number of independent variables that the trees can branch on
+  p <- devel_mod %>% 
+    select(starts_with('mir_')) %>% 
+    ncol()
+
+  if (is.null(devel)) {
+    devel_mod <- devel_mod %>% 
+      select(-c(stage, species, adjusted_devel)) %>% 
+      ranger(formula = development ~ ., 
+             importance = 'permutation', # we're modeling regression, not classification
+             min.node.size = 4, # fits our sample groupings better than default 5
+             mtry = floor(p/3), # recommended m for regression is p/3, not default p^0.5
+             scale.permutation.importance = TRUE) # seemed like a good idea?
+  } else if (devel == 'adjusted') {
+    devel_mod <- devel_mod %>% 
+      select(-c(stage, species, development)) %>% 
+      ranger(formula = adjusted_devel ~ ., 
+             importance = 'permutation', 
+             min.node.size = 4,
+             mtry = floor(p/3),
+             scale.permutation.importance = TRUE)
+  }
+
+  return(devel_mod)
+}
+
+
+devel_df <- get_devel_data()
+
+# make a data frame from each species' file and collect the frames in a list
+df_list <- 
+  wt_filepaths %>% 
+  map(norm_data_cleaner)
+names(df_list) <- species_names
+
+# make that list of individual data frames into one big frame
+alldat <- reduce(df_list, full_join)
+
+
+# getting a bunch of randomForest results in one big table
+vip_mirs <- list()
+vip_mir_counts <- list()
+
+for(species in species_names){
+  vip_mirs[[species]] <- list()
+  
+  # run randomForest a bunch of times, grabbing the top 25 miRs each time
+  for(i in 1:100){
+    forest <- forest_grower(alldat, species_name=species, devel='adjusted')
+    vip_mirs[[species]][[i]] <- 
+      vi(forest)[['Variable']] %>% 
+      head(25)
+  }
+  
+  # consolidate the top miR results into a frequency table
+  vip_mir_counts[[species]] <- 
+    vip_mirs[[species]] %>% 
+    unlist() %>% 
+    table() %>% 
+    data.frame() %>% 
+    clean_names() %>% 
+    rename(mir = x) %>% 
+    mutate(species = species) %>% 
+    arrange(desc(freq))
+}
+
+
+# combine randomForest results from all species into one table
+vip_mir_allcounts <- 
+  reduce(vip_mir_counts, full_join)
+
+# sum how many times each miR is among the top variables across all species
+total_mir_counts <- 
+  vip_mir_allcounts %>% 
+    group_by(mir) %>% 
+    summarise(total_freq = sum(freq)) %>% 
+    arrange(desc(total_freq))
+
+# make the total miR sums a new column in the table of individual counts
+vip_mir_allcounts <- 
+  vip_mir_allcounts %>% 
+    full_join(total_mir_counts) %>% 
+  arrange(desc(total_freq))
+
+
+# visualize how many miRs appeared in each grouping of species
+# then print the miRs that appeared in all species AND in at least 300/400 forests
+forest_name_results <- list()
+for (species in species_names){
+  forest_name_results[[species]] <- as.character(vip_mir_counts[[species]][["mir"]])
+}
+
+pdf(paste0(getwd(), '/randomforest_adj_devel_upset.pdf'))
+forest_upset <- upset(fromList(forest_name_results), nsets=length(forest_name_results))
+forest_upset
+dev.off()
+
+upset_all_species <- reduce(forest_name_results, intersect)
+frequent_mirs <- 
+  total_mir_counts %>% 
+  filter(total_freq >= 300) %>% 
+  pull(mir)
+freq_upset_adj_devel_mirs <- intersect(upset_all_species, frequent_mirs)
+
+```
+</div>
+</br>
+I should note that the original development % data was scaled by the % of the flies' entire life, but we found it more helpful to scale it by the % of the flies' time as a pupa. This re-scaling is what the description "**adjusted**" refers to.
+
+*RF Results*
+
+- With normal devel % data:
+  - 37 miRs found in top 25 vars of all 4 species
+  - Of those, 4 miRs were in 300/400 forests: **315a**, **375**, **305**, & **9a**
+- With adjusted devel % data:
+  - 40 miRs found in top 25 vars of all 4 species
+  - Of those, 2 miRs were in 300/400 forests: 315a, 375
+- Note: seed not reset for adjusted analysis
+
+```{r, echo=FALSE, out.width="80%", out.height="80%", fig.align='center'}
+knitr::include_graphics('../media/RF_adj_devel_upset.png')
+```
+
+Surprisingly, `DESeeker` didn't identify any of the miRs that RF did except 315a, which it only found significant in Chrysomya & Cochliomya-- not in all four species like RF did. 
+
+
+## Step 5: Tukey II
 
 
 
-### Step 5: Tukey II
+## Step 6: Expression Summaries
 
 
-### Step 6: Linear Modeling
+
+## Step 7: Linear Modeling
 
 
-### Conclusions
+## Conclusions
 
 
-### Next Steps
+## Next Steps
 
+- Perform Principal Component Analyses on the miR counts
+  - Like the Random Forests, this is a way to use low-level AI to figure out which miRs (components) may be the best to use (principal) for distinguishing between pupa development stages
 
+- Test the chosen miRs' resistance to external effects
+  - Fly pupa development is known to be affected by factors like light, temperature, and sex
+  - We'll need to see how much these conditions affect the models' predictions; are our chosen miRs useful in the real world?
+
+- Remove meaningless model predictions
+  - A pupa cannot be <0% or >100% developed and still be a pupa, yet all models occasionally predict outside the possible range
+  - I'm sure there's some way to limit a model's outcomes to a reasonable range, but I'll need to do more digging
 
