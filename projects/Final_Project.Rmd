@@ -496,7 +496,7 @@ The first round of Tukey plots was generated from let-7, bft, miR-100, miR-125, 
 
 ## Step 6: Expression Graphs
 
-Now that we have two sets of potentially predictive pupa miRs, let's see what their expression levels over time actually look like! I generated these much earlier in the research process, but I think it makes more sense in the explanation to put them down here.
+Now that we have two sets of potentially predictive pupa miRs, let's see what their expression levels over time actually look like! I generated these much earlier in the research process with `library(ggplot2)`, but I think it makes more sense in the explanation to put them down here.
 
 Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/compiler_by_development.R) to download the full expression graph code file, or click the Show button to see a code preview.
 
@@ -539,6 +539,58 @@ knitr::include_graphics('../media/mir_expression_rf.png')
 
 
 ## Step 7: Linear Modeling
+
+With two sets of miRs and their expression patterns identified, it's *finally* time to test out some models! Every linear model I made has the goal of predicting a pupa's development % based on it miR counts and species, but each model uses a different combination of miRs and line shapes. To make & test these models, I used the libraries `stats`, `easystats`, and `modelr`.
+
+- Of the single miR straight-line models, `mir_315a_mod` fared best, with R2 = 0.75  
+- Of the single miR parabolic/cubic models, `mir_305_mod_cube` fared best, with R2 = 0.82  
+- Of the multi miR straight-line models, `all_rf_mir_mod` (a combination of all four Random Forest miRs) fared best, with R2 = 0.92  
+  - However, `mir_315a_375_mod` was close behind in quality yet much simpler, with R2 = 0.87  
+- By combining straight-line & cubic variables, I found R2 = 0.90 for both `mir_315a_line_305_cube` and `mir_315a_line_375_cube`
+  - I thought using only two miRs would make these models simpler than a model using four miRs, but `compare_performance()` still identified `all_rf_mir_mod` as simpler
+- The most complex & accurate model I generated was `mir_315a_305_375_9a_complex`, with R2 = 0.98
+  - Although I chose the line shapes that seem to fit the miRs' expression graphs, and I only used 4 out of >150 available miRs, this model is very likely **overfit**
+  - Unfortunately, our sample sizes are not large enough to divide into training vs. test sets for cross-validation, so I can't report on the *actual* accuracy of this model
+
+You may notice that none of these models include the miRs that DESeq identified. Surprisingly, none of the DESeq miR models could match the Random Forest miR models' R2 values without completely sacrificing simplicity. Combining DESeq miRs with RF miRs in the same model dropped the model's R2 below what it'd be with only RF miRs.  
+In short, the DESeq miRs were consistently less helpful/predictive than the RF miRs.
+
+
+Click [**here**](https://sarahef13.github.io/fly_miR_analysis_code/linear_modeler.R) to download the full linear modeling code file, or click the Show button to see a code preview.
+
+<button class="btn btn-primary" data-toggle="collapse" data-target="#rCode6">Show/Hide Linear Modeling Preview</button>
+<div id="rCode6" class="collapse">
+```{r message=FALSE, class.source='fold-hide', eval=FALSE}
+
+mir_315a_mod <- glm(data = df, formula = adjusted_devel ~ mir_315a * species)
+report(mir_315a_mod)
+
+mir_305_mod_cube <- glm(data = df, formula = adjusted_devel ~ poly(mir_305, 3) * species)
+report(mir_305_mod_cube)
+
+all_rf_mir_mod <- glm(data = df, 
+                      formula = adjusted_devel ~ (mir_315a + mir_305 + mir_375 + mir_9a) * species)
+report(all_rf_mir_mod)
+
+mir_315a_375_mod <- glm(data = df, formula = adjusted_devel ~ (mir_315a + mir_375) * species)
+report(mir_315a_375_mod)
+
+mir_315a_line_375_cube <- glm(data = df, 
+                              formula = adjusted_devel ~ (mir_315a + poly(mir_375, 3)) * species)
+report(mir_315a_line_375_cube)
+
+mir_315a_line_305_cube <- glm(data = df, 
+                              formula = adjusted_devel ~ (mir_315a + poly(mir_305, 3)) * species)
+report(mir_315a_line_305_cube)
+
+mir_315a_305_375_9a_complex <- glm(data = df, 
+                                     formula = adjusted_devel ~ (mir_315a + poly(mir_305, 3) + poly(mir_375, 3) + poly(mir_9a, 3)) * species)
+report(mir_315a_305_375_9a_complex)
+
+```
+</div>
+</br>
+
 
 
 ## Conclusions
