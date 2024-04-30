@@ -635,8 +635,9 @@ model_results_faceted <-
 </div>
 
 
-## Conclusions
+## Summary
 
+Based on past and current research, it **is** possible to predict fly development time using the pupa's microRNA (miR) expression. However, different methods of analysis point to different miRs to use for development modeling across 4 blow fly species. DESeq points to **let-7**, **bft**, **miR-100**, and **miR-125**. Random Forest points to **miR-315a**, **miR-375**, **miR-305**, & **miR-9a**. Preliminary linear models suggest that the Random Forest miRs are better predictors. Past research pointed to bantam and miR-92b for Cochliomyia, which neither analysis method suggested for the other 3 species (Chrysomya, Plinthopyga, & Lucilia).
 
 ## Next Steps
 
