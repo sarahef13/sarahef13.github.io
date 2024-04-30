@@ -439,7 +439,7 @@ freq_upset_adj_devel_mirs <- intersect(upset_all_species, frequent_mirs)
 </br>
 I should note that the original development % data was scaled by the % of the flies' entire life, but we found it more helpful to scale it by the % of the flies' time as a pupa. This re-scaling is what the description "**adjusted**" refers to.
 
-*RF Results*
+*RF Upset Plot Results*
 
 - With normal devel % data:
   - 37 miRs found in top 25 vars of all 4 species
@@ -458,6 +458,40 @@ Surprisingly, `DESeeker` didn't identify any of the miRs that RF did except 315a
 
 ## Step 5: Tukey II
 
+The first round of Tukey plots was generated from let-7, bft, miR-100, miR-125, & miR-315a for Chrysomya, Cochliomya, and Plinthopyga-- as suggested by `DESeeker`. This next round of Tukey results was generated from miR-305, miR-315a, miR-375, & miR-9a for all four species (including Lucilia)-- as suggested by Random Forest analysis. Otherwise, the methods & code were nearly identical, so I won't waste your time repeating them here.
+
+*RF Tukey Plot Results*
+
+:::: {style="display: flex;"}
+::: {}
+
+- Chrysomya separation
+  - 305: early vs late
+  - 315a: early
+  - 375: none (~late)
+  - 9a: none
+- Cochliomyia separation
+  - 305: early vs mid 2
+  - 315a: 1st vs 2nd halves
+  - 375: 1st vs 2nd halves
+  - 9a: early vs late
+
+:::
+::: {}
+
+- Plinthopyga separation
+  - 305: early
+  - 315a: full separation, down slope
+  - 375: full separation(?), down
+  - 9a: full separation, parabola
+- Lucilia separation
+  - 305: early vs late
+  - 315a: mid vs late
+  - 375: late
+  - 9a: late
+
+:::
+::::
 
 
 ## Step 6: Expression Summaries

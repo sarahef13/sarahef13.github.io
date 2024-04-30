@@ -1994,7 +1994,7 @@ freq_upset_adj_devel_mirs &lt;- intersect(upset_all_species, frequent_mirs)</cod
 by the % of the flies’ entire life, but we found it more helpful to
 scale it by the % of the flies’ time as a pupa. This re-scaling is what
 the description “<strong>adjusted</strong>” refers to.</p>
-<p><em>RF Results</em></p>
+<p><em>RF Upset Plot Results</em></p>
 <ul>
 <li>With normal devel % data:
 <ul>
@@ -2017,6 +2017,52 @@ that RF did except 315a, which it only found significant in Chrysomya
 </div>
 <div id="step-5-tukey-ii" class="section level2">
 <h2>Step 5: Tukey II</h2>
+<p>The first round of Tukey plots was generated from let-7, bft,
+miR-100, miR-125, &amp; miR-315a for Chrysomya, Cochliomya, and
+Plinthopyga– as suggested by <code>DESeeker</code>. This next round of
+Tukey results was generated from miR-305, miR-315a, miR-375, &amp;
+miR-9a for all four species (including Lucilia)– as suggested by Random
+Forest analysis. Otherwise, the methods &amp; code were nearly
+identical, so I won’t waste your time repeating them here.</p>
+<p><em>RF Tukey Plot Results</em></p>
+<div style="display: flex;">
+<div>
+<ul>
+<li>Chrysomya separation
+<ul>
+<li>305: early vs late</li>
+<li>315a: early</li>
+<li>375: none (~late)</li>
+<li>9a: none</li>
+</ul></li>
+<li>Cochliomyia separation
+<ul>
+<li>305: early vs mid 2</li>
+<li>315a: 1st vs 2nd halves</li>
+<li>375: 1st vs 2nd halves</li>
+<li>9a: early vs late</li>
+</ul></li>
+</ul>
+</div>
+<div>
+<ul>
+<li>Plinthopyga separation
+<ul>
+<li>305: early</li>
+<li>315a: full separation, down slope</li>
+<li>375: full separation(?), down</li>
+<li>9a: full separation, parabola</li>
+</ul></li>
+<li>Lucilia separation
+<ul>
+<li>305: early vs late</li>
+<li>315a: mid vs late</li>
+<li>375: late</li>
+<li>9a: late</li>
+</ul></li>
+</ul>
+</div>
+</div>
 </div>
 <div id="step-6-expression-summaries" class="section level2">
 <h2>Step 6: Expression Summaries</h2>
