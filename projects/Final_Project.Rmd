@@ -20,10 +20,11 @@ This also means that none of the code here will be able to run, as none of the d
 
 Boy howdy, do some flies love to eat meat--especially when their meal is too dead to swat them away. Sometimes, that meat is people!
 
-Forensic scientists often use blow flies to estimate the time since a cadaver's death. Because blow flies arrive within hours of death, their development is directly linked with the cadaver's. The blow fly life cycle has 4 visually distinct stages: egg, larva (split into 3 instars), pupa, and adult.
+Forensic scientists often use blow flies to estimate the time since a cadaver's death. Because blow flies arrive within hours of death, their development is directly linked with the cadaver's. The blow fly life cycle has 4 visually distinct stages: egg, larva (split into 3 instars), pupa, and adult.  
 ```{r, echo=FALSE}
-knitr::include_graphics('./media/blowfly-life-cycle.png')
+knitr::include_graphics('../media/blowfly-life-cycle.png')
 ```
+
 *Image source: https://doi.org/10.18099/ijetv.v7i01.5*
 
 About half of an immature fly's life is spent as a **pupa**. Unfortunately for forensic scientists, a newly-shelled pupa looks the same as a nearly-hatching pupa. This leaves a week of uncertainty in the time of death estimate-- far too long to confidently base a court case on. That's where Dr. Hjelmen's & my research comes in!
