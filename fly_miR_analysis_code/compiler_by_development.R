@@ -110,14 +110,26 @@ all_species_df <- all_species_df %>%
 
 
 
-adj_plot <- all_species_df %>% 
-  select(c(miR_100, miR_125, `miR_let-7`, miR_bft, species, adjusted_devel)) %>% 
+alldat_file <- list.files(pattern = 'all_norm_wt_data.csv', recursive = TRUE)
+alldat <- read_csv(alldat_file)
+
+#adj_plot <- all_species_df %>% 
+#deseq_mirs_expression <- alldat %>% 
+rf_mirs_expression <- alldat %>% 
+  clean_names() %>% 
+  #select(c(mir_100, mir_125, mir_let_7, mir_bft, species, adjusted_devel)) %>% 
+  select(c(mir_315a, mir_375, mir_305, mir_9a, species, adjusted_devel)) %>% 
   pivot_longer(starts_with('miR_'), 
                names_to = 'miR', 
                values_to = 'norm_read') %>% 
   ggplot(aes(x=adjusted_devel, y=norm_read, color=species)) +
-  geom_smooth(size=2, se = FALSE) +
-  facet_wrap(~miR, scales = 'free')
+  geom_smooth(linewidth=2, se = FALSE) +
+  facet_wrap(~miR, scales = 'free') +
+  labs(x='Adjusted Pupal Development (0-100%)', 
+       y='Normalized miR Count', 
+       title='Random Forest miR Expression across Pupal Development, by Species') +
+  scale_color_viridis_d(end=0.85)
 
-ggsave('norm_data_by_adj_devel_percent.pdf', adj_plot, scale = 2.5)
+#ggsave('norm_data_by_adj_devel_percent.pdf', deseq_mirs_expression, scale = 2.5)
+ggsave('norm_data_by_adj_devel_percent_rf.pdf', rf_mirs_expression, scale = 2.5)
 
