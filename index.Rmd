@@ -5,7 +5,7 @@ output: html_document
 pagetitle: "SarahEF"
 ---
 
-## [Home](https://sarahef13.github.io/) | [Projects](https://sarahef13.github.io/projects/markdown-hints.html) | [Resume](https://sarahef13.github.io/about-me/resume-2024.pdf)
+## [Home](https://sarahef13.github.io/) | [Projects](https://sarahef13.github.io/projects/Final_Project.html) | [Resume](https://sarahef13.github.io/about-me/resume-2024.pdf)
 
 ```{r, echo=FALSE}
 knitr::include_graphics('./media/PharmaTech_Logo.png')

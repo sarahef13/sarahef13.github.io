@@ -1,0 +1,77 @@
+---
+title: "Final Project"
+output: html_document
+date: "2024-04-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Using microRNAs to Predict Forensic Flies' Age
+
+### Preface
+
+Please note: this project's data is **NOT** published yet; please don't share these results outside of our class. I don't want to get turned into fly food.  
+This also means that none of the code here will be able to run, as none of the data files are stored online. I pinky promise that the graphs shown below were generated using my code.
+
+
+### Background: Fly Forensics
+
+Boy howdy, do some flies love to eat meat--especially when their meal is too dead to swat them away. Sometimes, that meat is people!
+
+Forensic scientists often use blow flies to estimate the time since a cadaver's death. Because blow flies arrive within hours of death, their development is directly linked with the cadaver's. The blow fly life cycle has 4 visually distinct stages: egg, larva (split into 3 instars), pupa, and adult.
+```{r, echo=FALSE}
+knitr::include_graphics('./media/blowfly-life-cycle.png')
+```
+*Image source: https://doi.org/10.18099/ijetv.v7i01.5*
+
+About half of an immature fly's life is spent as a **pupa**. Unfortunately for forensic scientists, a newly-shelled pupa looks the same as a nearly-hatching pupa. This leaves a week of uncertainty in the time of death estimate-- far too long to confidently base a court case on. That's where Dr. Hjelmen's & my research comes in!
+
+
+### Background: Previous Research
+
+Dr. Hjelmen has already worked with a number of researchers to find genetic markers of age in the blow fly *Cochliomyia macellaria*. They specifically focused on micro-RNAs (**miRs**), as these genetic molecules are present in different amounts at different times of development, yet they're more stable than the more commonly analyzed messenger-RNAs.
+
+Dr. Hjelmen's team validated two significantly differentially expressed (i.e. potentially forensically useful) miRs in *C. macellaria*: bantam and miR-92b.  
+Check out their original publication [here](https://cehjelmen.github.io/assets/publications/insects_2022_miRNA_macellaria.pdf)!
+
+After their publication, they continued to sequence miRs from *C. macellaria* (hereafter called **Cochliomyia**), and they began sequencing miRs from 3 more forensic blow fly species: *Chrysomya rufifacies* (**Chrysomya**), *Lucilia cuprina* (**Lucilia**), and *Blaesoxipha plinthopyga* (**Plinthopyga**).
+
+My role in Dr. Hjelmen's lab is to identify miRs that may be good predictors of fly pupa age across species, especially miRs that aren't affected by variables like the fly's sex or environment's temperature.  
+My role in Dr. Geoffrey Zahn's class is to generate the simplest yet most accurate age model possible, to demonstrate my understanding of BIOL3100: Data Analytics. Ideally, this model will also lay the groundwork for making future forensic scientists' jobs easier... or at least have less guesswork.
+
+
+### Step 0: Count Consolidation
+
+The raw data I received consisted of many files of raw miR sequence counts organized by miR name, fly sample, and pupa development time. The names were obtained via BLAST alignment of each read, so many of the same sequences were identified with slightly different name codes--depending on with species the read first aligned with.  
+As such, my first task was to consolidate the miR names, adding together the counts from the same sequences. Because I joined this project before I learned enough R, I wrote the consolidation code in Python. Click [here](https://sarahef13.github.io/fly_miR_analysis_code/count_consolidator.py) to access the .py file!
+
+
+### Step 1: DESeq
+
+
+
+
+### Step 2: Upset Plots
+
+
+### Step 3: Tukey Boxplots
+
+
+### Step 4: Random Forests
+
+
+### Step 5: Tukey II, Electric Boogaloo
+
+
+### Step 6: Linear Modeling
+
+
+### Conclusions
+
+
+### Next Steps
+
+
+
