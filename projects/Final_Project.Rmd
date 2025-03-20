@@ -652,3 +652,6 @@ Based on past and current research, it **is** possible to predict fly developmen
   - A pupa cannot be <0% or >100% developed and still be a pupa, yet all models occasionally predict outside the possible range
   - I'm sure there's some way to limit a model's outcomes to a reasonable range, but I'll need to do more digging
 
+## Post-Capstone Work
+
+(put updates here)
